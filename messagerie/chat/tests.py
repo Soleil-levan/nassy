@@ -1,10 +1,33 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from .models import *
 import random
 
 # Create your tests here.
-plen = lambda x:print(len(x),'\n')
+class Creer_chat(TestCase):
+    def setUp(self):
+        self.user_modal = get_user_model()
+
+    def test_model_chat(self):
+        james = self.user_modal.objects.create_user('james','','user')
+        luis = self.user_modal.objects.create_user('luis','','user')
+        daniel = self.user_modal.objects.create_user('daniel','','user')
+        john = self.user_modal.objects.create_user('john','','user')
+        chat1 = Chat(util_1=james, util_2=luis)
+        chat2 = Chat(util_1=james, util_2=daniel)
+        chat3 = Chat(util_1=john, util_2=daniel)
+        chat2.save()
+        chat1.save()
+        chat3.save()
+        getRandom = lambda x: x[random.randint(0,len(x)-1)]
+        for c in [chat1, chat1, chat2, chat2, chat2, chat3]:
+            u = getRandom([c.util_1, c.util_2])
+            Message(texte=f'{u} : msg {c}',util=u, chat=c).save()
+        print(chat2.get_messages())
+
+
+
+
 # class creer_objects(TestCase):
 #     ju=Utilisateur(nom='juari',num_tel='+12345456',info='hi people!')
 #     man=Utilisateur(nom='manuel',num_tel='+00999999',info='ola people!')
