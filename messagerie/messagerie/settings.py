@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-l87@&h54ndb=00-g@vvysv4@e0lf@#^&!ms2ov5y-_n-k*ez7#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,9 +39,18 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+    "channels",
+
     "chat",
     "compte",
 ]
+
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -71,7 +80,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "messagerie.wsgi.application"
+ASGI_APPLICATION = "messagerie.asgi.application"
+# WSGI_APPLICATION = "messagerie.wsgi.application"
 
 
 # Database
@@ -128,3 +138,4 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+LOGIN_URL = "/compte/login"
